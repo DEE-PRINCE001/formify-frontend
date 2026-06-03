@@ -1,5 +1,49 @@
-@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  /* LIGHT MODE (Default) */
+  :root {
+    --theme-bg-primary: #F8FAFC;
+    --theme-bg-secondary: #FFFFFF;
+    --theme-bg-hover: #F1F5F9;
+    --theme-accent-primary: #00B4D8; 
+    --theme-accent-secondary: #5B7CFF;
+    --theme-text-primary: #0F172A;
+    --theme-text-secondary: #64748B;
+  }
+
+  /* DARK MODE */
+  .dark {
+    --theme-bg-primary: #141F33;
+    --theme-bg-secondary: #1E2A47;
+    --theme-bg-hover: #26335A;
+    --theme-accent-primary: #00D4FF;
+    --theme-accent-secondary: #5B7CFF;
+    --theme-text-primary: #E6EAFA;
+    --theme-text-secondary: #A3B0D4;
+  }
+}
+
+/* 3. Map the CSS variables into Tailwind's theme engine */
 @theme {
-    --color-primary: #141F33;
+  /* This creates your utility classes: bg-primary, text-primary-text, etc. */
+  --color-primary: var(--theme-bg-primary);
+  --color-secondary: var(--theme-bg-secondary);
+  --color-secondary-hover: var(--theme-bg-hover);
+  
+  --color-primary-accent: var(--theme-accent-primary);
+  --color-secondary-accent: var(--theme-accent-secondary);
+  
+  --color-primary-text: var(--theme-text-primary);
+  --color-secondary-text: var(--theme-text-secondary);
+
+  --font-inter: 'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--font-inter);
+    background-color: var(--color-primary)!;
 }
