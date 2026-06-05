@@ -7,6 +7,7 @@ import StatCard from '../components/analytics/StatCard';
 import ProgressBar from '../components/analytics/ProgressBar';
 
 const AnalyticsPage = () => {
+  
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -42,12 +43,11 @@ const AnalyticsPage = () => {
   const getAggregatedData = (question) => {
     const allAnswers = responses
       .flatMap(res => res.answers)
-      .filter(ans => ans.questionTitle === question.title && ans.answer !== '');
+      .filter(ans => ans.questionText === question.text && ans.answerText !== '');
 
     const totalAnswers = allAnswers.length;
-
     if (question.type === 'TEXT') {
-      return { total: totalAnswers, texts: allAnswers.map(a => a.answer) };
+      return { total: totalAnswers, texts: allAnswers.map(a => a.answerText) };
     }
 
     // For MULTIPLE_CHOICE and CHECKBOX, count frequencies
@@ -56,13 +56,13 @@ const AnalyticsPage = () => {
 
     allAnswers.forEach(a => {
       if (question.type === 'CHECKBOX') {
-        // Checkboxes are comma-separated strings (e.g., "Apple, Banana")
-        const selectedOpts = a.answer.split(',').map(s => s.trim());
+        
+        const selectedOpts = a.answerText.split(',').map(s => s.trim());
         selectedOpts.forEach(opt => {
           if (frequencies[opt] !== undefined) frequencies[opt]++;
         });
       } else {
-        if (frequencies[a.answer] !== undefined) frequencies[a.answer]++;
+        if (frequencies[a.answerText] !== undefined) frequencies[a.answerText]++;
       }
     });
 
@@ -73,12 +73,12 @@ const AnalyticsPage = () => {
     // Basic CSV Export Logic
     if (!responses.length) return alert('No data to export.');
     
-    const headers = form.questions.map(q => q.title).join(',');
+    const headers = form.questions.map(q => q.text).join(',');
     const rows = responses.map(res => {
       return form.questions.map(q => {
-        const answerObj = res.answers.find(a => a.questionTitle === q.title);
+        const answerObj = res.answers.find(a => a.questionText === q.text);
         // Wrap in quotes to escape commas in answers
-        return `"${answerObj ? answerObj.answer.replace(/"/g, '""') : ''}"`;
+        return `"${answerObj ? answerObj.answerText.replace(/"/g, '""') : ''}"`;
       }).join(',');
     });
 
@@ -160,7 +160,7 @@ const AnalyticsPage = () => {
                   <span className="text-xs font-bold text-primary-accent uppercase tracking-wider mb-1 block">
                     Question {qIdx + 1} • {question.type.replace('_', ' ')}
                   </span>
-                  <h3 className="text-xl font-semibold text-primary-text">{question.title}</h3>
+                  <h3 className="text-xl font-semibold text-primary-text">{question.text}</h3>
                   <p className="text-sm text-secondary-text mt-1">{data.total} responses</p>
                 </div>
 

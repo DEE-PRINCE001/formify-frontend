@@ -16,7 +16,7 @@ export default function App() {
       <Route path="/login" element={<AuthPage mode="login" />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/builder" element={<FormBuilder />} />
-      <Route path="/analytics" element={<AnalyticsPage />} />
+      <Route path="/analytics/:id" element={<AnalyticsPage />} />
       <Route path="/form/:id" element={<RespondentPage />} />
      </Routes>
   //  </div>

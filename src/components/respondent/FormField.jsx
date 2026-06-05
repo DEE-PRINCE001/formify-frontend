@@ -1,7 +1,7 @@
 import React from 'react';
 
 const FormField = ({ question, value, onChange }) => {
-  const { title, type, required, options } = question;
+  const { text, type, required, options } = question;
 
   // Handle Checkbox Toggles locally, passing the updated array up to the container
   const handleCheckboxChange = (option) => {
@@ -16,7 +16,7 @@ const FormField = ({ question, value, onChange }) => {
   return (
     <div className="bg-secondary p-6 rounded-lg border border-secondary-hover shadow-sm transition-all">
       <label className="block text-lg font-medium text-primary-text mb-3">
-        {title}
+        {text}
         {required && <span className="text-red-400 ml-1" title="Required">*</span>}
       </label>
 

@@ -45,9 +45,9 @@ const FormBuilder = () => {
     const cleanedQuestions = questions.map(q => {
       const isChoice = q.type === 'MULTIPLE_CHOICE' || q.type === 'CHECKBOX';
       return {
-        title: q.title,
+        text: q.title,
         type: q.type,
-        required: q.required,
+        // required: q.required,
         // Only include options if it's a choice type, otherwise API might reject it
         ...(isChoice ? { options: q.options } : {})
       };

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { authService } from '../api/authService';
 import logo from '../assets/logo.svg'; 
 import Button from '../components/Button';
 import Input from '../components/Input';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const AuthPage = ({ mode }) => {
   const [isLogin, setIsLogin] = useState(mode === 'login');
@@ -11,7 +11,24 @@ const AuthPage = ({ mode }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const oauthToken = searchParams.get('token');
+    if (oauthToken) {
+      authService.saveToken(oauthToken);
+      navigate('/dashboard');
+    }
+  }, [searchParams, navigate]);
+
+
+  const handleOAuthLogin = () => {
+
+    window.location.href = 'http://formifyfb.up.railway.app/oauth2/authorization/google'; 
+  };
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -56,10 +73,10 @@ const AuthPage = ({ mode }) => {
       
       {error && <div className='text-red-500 mb-2.5 text-center'>{error}</div>}
 
-        <Button text={"Continue with Google"} bg={"bg-white"} 
+        <Button onClick={handleOAuthLogin} text={"Continue with Google"} bg={"bg-white"} 
         size={"w-full h-15 text-lg font-bold"} 
         color={"secondary"}/>
-        <Button text={"Continue with Apple"} bg={"bg-black"} 
+        <Button onClick={handleOAuthLogin} text={"Continue with Apple"} bg={"bg-black"} 
         size={"w-full h-15 text-lg font-bold"} otherStyles={"border-2 border-white/30"} 
         />
 

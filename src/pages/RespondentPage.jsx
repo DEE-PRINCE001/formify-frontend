@@ -23,7 +23,7 @@ const RespondentPage = () => {
         // Initialize state mapping questions titles to blank defaults
         const initialAnswers = {};
         data.questions.forEach(q => {
-          initialAnswers[q.title] = q.type === 'CHECKBOX' ? [] : '';
+          initialAnswers[q.text] = q.type === 'CHECKBOX' ? [] : '';
         });
         setAnswers(initialAnswers);
       } catch (err) {
@@ -46,19 +46,20 @@ const RespondentPage = () => {
 
     // CRITICAL API LOGIC: Transform checkbox arrays into comma-separated strings
     const formattedAnswers = form.questions.map(q => {
-      let finalAnswer = answers[q.title];
+      let finalAnswer = answers[q.text];
       
       if (q.type === 'CHECKBOX' && Array.isArray(finalAnswer)) {
         finalAnswer = finalAnswer.join(', ');
       }
 
       return {
-        questionTitle: q.title,
-        answer: finalAnswer || ''
+        questionId: q.id,
+        answerText: finalAnswer || ''
       };
     });
 
     const payload = {
+      formId: id,
       answers: formattedAnswers
     };
 
@@ -66,6 +67,7 @@ const RespondentPage = () => {
       await formService.submitResponse(id, payload);
       setSubmitted(true);
     } catch (err) {
+      console.log(err);
       setError(err.response?.data?.message || 'Failed to submit response. Please try again.');
     } finally {
       setSubmitting(false);
@@ -130,8 +132,8 @@ const RespondentPage = () => {
             <FormField
               key={question.id}
               question={question}
-              value={answers[question.title]}
-              onChange={(value) => handleFieldChange(question.title, value)}
+              value={answers[question.text]}
+              onChange={(value) => handleFieldChange(question.text, value)}
             />
           ))}
 
