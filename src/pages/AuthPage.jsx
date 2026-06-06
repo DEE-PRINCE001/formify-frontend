@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { authService } from '../api/authService';
 import logo from '../assets/logo.svg'; 
-import Button from '../components/Button';
+import Button from '../components/ui/Button';
 import Input from '../components/Input';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const AuthPage = ({ mode }) => {
   const [isLogin, setIsLogin] = useState(mode === 'login');
@@ -31,6 +32,8 @@ const AuthPage = ({ mode }) => {
 
 
   const handleChange = (e) => {
+    setError('')
+    if (!isLogin && formData.password.length < 6){ setError("Password must contain at least 6 character")}
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -42,15 +45,22 @@ const AuthPage = ({ mode }) => {
     try {
       if (isLogin) {
         await authService.login(formData);
+        toast.success('Login successful! Redirecting...');
         navigate('/dashboard');
-        alert('Login successful! Redirecting...');
       } else {
+
+        if (formData.password.length < 6){
+          setError("Password must contain at least 6 character!");
+          return;
+          
+        }
+
         await authService.register(formData);
-        alert('Registration successful! Please log in.');
-        setIsLogin(true); // Switch to login view
+        toast.success('Registration successful! Please log in.');
+        setIsLogin(true);
       }
     } catch (err) {
-      // Catching the clean JSON error from your Spring backend
+      
       if (err.response && err.response.data) {
         setError(err.response.data.error || 'An error occurred.');
       } else {
@@ -62,7 +72,7 @@ const AuthPage = ({ mode }) => {
   };
 
   return (
-<div className="flex flex-col bg-black mt-4 items-center w-full justify-start min-h-screen">
+<div className="flex flex-col bg-[#141F33] py-10 items-center w-full justify-start min-h-screen">
     <div className="flex flex-col items-center justify-center space-y-5 p-2 text-white transition-all duration-300">
         <img src={logo} alt="Formify Logo" className="w-15 h-15 " />
       <h2 className='text-4xl font-bold m-0 mb-1'>{isLogin ? 'Login to Formify' : 'Create an Account'}</h2>
@@ -70,15 +80,12 @@ const AuthPage = ({ mode }) => {
     </div>
 
     <div className="space-y-4 rounded-xl sm:w-full lg:w-125 mt-3 bg-white/5 shadow-sm border-2 border-white/20 max-sm:p-5 p-10">
-      
-      {error && <div className='text-red-500 mb-2.5 text-center'>{error}</div>}
 
-        <Button onClick={handleOAuthLogin} text={"Continue with Google"} bg={"bg-white"} 
-        size={"w-full h-15 text-lg font-bold"} 
-        color={"secondary"}/>
-        <Button onClick={handleOAuthLogin} text={"Continue with Apple"} bg={"bg-black"} 
-        size={"w-full h-15 text-lg font-bold"} otherStyles={"border-2 border-white/30"} 
-        />
+        <Button onClick={handleOAuthLogin} 
+        className="w-full h-15 text-lg! font-bold!" variant='secondary'>Continue with Google</Button>
+        <Button onClick={handleOAuthLogin}
+        className="w-full h-15 text-lg! font-bold!"
+        >Continue with Apple</Button>
 
         <div className="flex items-center mb-3">
           <hr className="grow border-t border-white/15" />
@@ -99,7 +106,12 @@ const AuthPage = ({ mode }) => {
           />
         </div>
         <div className="flex flex-col space-y-1">
-          <label>Password:</label>
+          <div className='flex justify-between items-center'>
+            <label>Password:</label>
+            <span onClick={() => navigate("/forgot-password")} className="text-blue-500 text-sm hover:underline cursor-pointer">
+        Forgot Password
+      </span>
+          </div>
           <Input
             type="password"
             name="password"
@@ -109,7 +121,10 @@ const AuthPage = ({ mode }) => {
             placeholder="At least 6 characters"
           />
         </div>
-        <Button type="submit" text={loading ? 'Processing...' : (isLogin ? 'Login' : 'Register')} bg={"bg-blue-600"} size={"w-full h-12 text-lg font-bold"} disabled={loading} />
+        {error && <div className='text-red-500 mb-3.5 text-left'>{error}</div>}
+        <Button type="submit" className={"w-full h-12 text-lg! font-bold!"} 
+        disabled={loading}
+        >{loading ? 'Processing...' : (isLogin ? 'Login' : 'Register')}</Button>
       </form>
 
       <p onClick={() => {navigate( isLogin ? "/login" : "/register");

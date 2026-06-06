@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authService } from '../api/authService';
 import Button from '../components/ui/Button';
-
+import {useTheme} from '../hooks/useTheme'
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const {isDark, toggleTheme } = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ const ForgotPassword = () => {
       });
       setEmail('');
     } catch (err) {
+      console.log(err)
       setStatus({ 
         type: 'error', 
         message: err.response?.data?.message || 'Failed to process request. Please try again.' 
@@ -32,7 +35,17 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-primary flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-inter">
+    <div className="min-h-screen bg-primary flex flex-col py-5 sm:px-6 lg:px-8 font-inter">
+      <div className='flex items-center justify-between w-full mb-30'>
+        <div></div>
+
+      <Button 
+            onClick={toggleTheme} variant='primary'
+            title="Toggle Theme"
+            >
+            {isDark ? '☀️ Light' : '🌙 Dark'}
+          </Button>
+            </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="text-center text-3xl font-bold text-primary-text">
           Reset your password

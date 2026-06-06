@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { authService } from '../api/authService';
 import Button from '../components/ui/Button';
+import { useTheme } from '../hooks/useTheme';
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('token'); // Extracts ?token=XYZ from URL
+  const token = searchParams.get('token'); 
   
   const [passwords, setPasswords] = useState({ newPassword: '', confirmPassword: '' });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const {isDark, toggleTheme} = useTheme();
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -43,7 +45,17 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-primary flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-inter">
+    <div className="min-h-screen bg-primary flex flex-col py-5 sm:px-6 lg:px-8 font-inter">
+      <div className='flex items-center justify-between w-full mb-25 pt-2 pr-2'>
+        <div></div>
+
+      <Button 
+            onClick={toggleTheme} variant='primary'
+            title="Toggle Theme"
+            >
+            {isDark ? '☀️ Light' : '🌙 Dark'}
+          </Button>
+            </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="text-center text-3xl font-bold text-primary-text">
           Create New Password
@@ -82,7 +94,7 @@ const ResetPassword = () => {
               />
             </div>
 
-            <Button type="submit" variant="primary" className="w-full" disabled={loading || !token}>
+            <Button type="submit" variant="primary" className="w-full" disabled={loading}>
               {loading ? 'Updating...' : 'Save New Password'}
             </Button>
           </form>
