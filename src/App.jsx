@@ -10,6 +10,9 @@ import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css"
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
+import LandingPage from './pages/LandingPage'
+import ScrollToTop from './components/ScrollToTop'
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 export default function App() {
@@ -19,12 +22,26 @@ export default function App() {
     <ToastContainer
     position='top-center'
     autoClose={2000}/>
+    <ScrollToTop/>
      <Routes>
+      <Route path='/' element={<LandingPage/>}/>
       <Route path="/register" element={<AuthPage mode="register" />} />
       <Route path="/login" element={<AuthPage mode="login" />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/builder" element={<FormBuilder />} />
-      <Route path="/analytics/:id" element={<AnalyticsPage />} />
+      <Route path="/dashboard" element={
+        <ProtectedRoute> 
+        <Dashboard />
+        </ProtectedRoute>
+        } />
+      <Route path="/builder" element={
+        <ProtectedRoute>
+          <FormBuilder />
+          </ProtectedRoute>
+          } />
+      <Route path="/analytics/:id" element={
+        <ProtectedRoute>
+          <AnalyticsPage />
+          </ProtectedRoute>
+          } />
       <Route path="/form/:id" element={<RespondentPage />} />
       <Route path='/forgot-password' element={<ForgotPassword/>}/>
       <Route path='/reset-password' element={<ResetPassword/>}/>

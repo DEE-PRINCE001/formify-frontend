@@ -47,8 +47,9 @@ const FormBuilder = () => {
       return {
         text: q.title,
         type: q.type,
-        // required: q.required,
-        // Only include options if it's a choice type, otherwise API might reject it
+        required: q.required,
+        
+        
         ...(isChoice ? { options: q.options } : {})
       };
     });
@@ -73,6 +74,7 @@ const FormBuilder = () => {
       if (err.response?.data?.message) {
         setError(err.response.data.message);
       } else {
+        console.log(err);
         setError('Failed to save the form. Please check your data and try again.');
       }
     } finally {
