@@ -87,7 +87,10 @@ const FormBuilder = () => {
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <button 
-            onClick={() => navigate('/dashboard')} 
+            onClick={() => {
+              
+              confirm("This will discard your current form\nDo you want to continue?") ? navigate('/dashboard') : "";
+            }} 
             className="text-secondary-text hover:text-primary-text mb-4 inline-flex items-center text-sm transition-colors"
           >
             ← Back to Dashboard

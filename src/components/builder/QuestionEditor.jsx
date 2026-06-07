@@ -26,8 +26,8 @@ const QuestionEditor = ({ question, index, updateQuestion, removeQuestion }) => 
 
   return (
     <div className="bg-secondary p-6 rounded-lg border border-secondary-hover shadow-sm mb-6 transition-all">
-      <div className="flex justify-between items-start mb-4 gap-4">
-        <div className="flex-1">
+      <div className="flex flex-col-reverse justify-between items-start mb-4 gap-4">
+        <div className="w-full">
           <input
             type="text"
             placeholder={`Question ${index + 1}`}
@@ -37,15 +37,15 @@ const QuestionEditor = ({ question, index, updateQuestion, removeQuestion }) => 
             required
           />
         </div>
-        <div className="w-48">
+        <div className="w-48 ml-auto">
           <select
             value={question.type}
             onChange={(e) => handleChange('type', e.target.value)}
             className="w-full bg-primary text-primary-text border border-secondary-hover rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-accent"
           >
-            <option value="TEXT">Short Answer (Text)</option>
-            <option value="MULTIPLE_CHOICE">Multiple Choice</option>
-            <option value="CHECKBOX">Checkboxes</option>
+            <option className="text-sm" value="TEXT">Short Answer (Text)</option>
+            <option className="text-sm" value="MULTIPLE_CHOICE">Multiple Choice</option>
+            <option className="text-sm" value="CHECKBOX">Checkboxes</option>
           </select>
         </div>
       </div>
