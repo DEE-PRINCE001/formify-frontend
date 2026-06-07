@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 
 const ProtectedRoute = ({children}) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("formify_token");
 
     if (!token) {
         return <Navigate to={"/login"} replace/>
