@@ -72,7 +72,7 @@ const AuthPage = ({ mode }) => {
   };
 
   return (
-<div className="flex flex-col bg-[#141F33] py-10 items-center w-full justify-start min-h-screen">
+<div className="flex flex-col bg-[#141F33] py-10 items-center w-full justify-start min-h-screen max-sm:px-2">
     <div className="flex flex-col items-center justify-center space-y-5 p-2 text-white transition-all duration-300">
         <img src={logo} alt="Formify Logo" className="w-15 h-15 " />
       <h2 className='text-4xl font-bold m-0 mb-1'>{isLogin ? 'Login to Formify' : 'Create an Account'}</h2>
