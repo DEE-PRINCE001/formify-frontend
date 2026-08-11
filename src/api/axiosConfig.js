@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://formify-1-ozy6.onrender.com',
+  baseURL: 'https://formify-1-ozy6.onrender.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
