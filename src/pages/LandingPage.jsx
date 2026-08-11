@@ -6,13 +6,14 @@ import CTA from '../components/landing/CTA';
 import Footer from '../components/landing/Footer';
 import Button from '../components/ui/Button';
 import HowItWorks from '../components/landing/HowItWorks';
+import AnimateOnScroll from '../components/AnimateOnScroll';
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-primary font-inter selection:bg-primary-accent selection:text-primary">
-      {/* Public Navbar */}
+
       <nav className="fixed w-full top-0 z-50 bg-primary/80 backdrop-blur-md border-b border-secondary-hover transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div 
@@ -39,10 +40,16 @@ const LandingPage = () => {
       </nav>
 
       <main>
-        <Hero />
+        <AnimateOnScroll variant='fadeUp'>
+          <Hero />
+        </AnimateOnScroll>
         <FeatureGrid />
-        <HowItWorks/>
-        <CTA />
+        <AnimateOnScroll variant='fadeLeft'>
+          <HowItWorks/>
+        </AnimateOnScroll>
+        <AnimateOnScroll variant='zoom'>
+          <CTA />
+        </AnimateOnScroll>
       </main>
 
       <Footer />

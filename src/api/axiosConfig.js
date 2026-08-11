@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://formifyfb.up.railway.app/api',
+  baseURL: 'https://formify-1-ozy6.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },

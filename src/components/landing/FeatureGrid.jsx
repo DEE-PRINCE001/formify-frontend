@@ -1,35 +1,42 @@
 import React from 'react';
+import AnimatedCard from '../AnimatedCard';
 
 const features = [
   {
     title: 'Dynamic Question Engine',
     description: 'Support for short text, multiple choice, and checkbox arrays out of the box with strict API-level validation.',
     icon: '⚡',
+    animateDelay: 0
   },
   {
     title: 'Instant Data Aggregation',
     description: 'Our backend handles the heavy lifting, instantly calculating frequencies and generating real-time progress bars.',
     icon: '📊',
+    animateDelay: 0.15
   },
   {
     title: 'One-Click CSV Exports',
     description: 'Take your data anywhere. Export thousands of clean, formatted responses to CSV instantly.',
     icon: '📑',
+    animateDelay: 0.20
   },
   {
     title: 'Secure JWT Authentication',
     description: 'Enterprise-grade security using JSON Web Tokens. Your workspace and responses are completely isolated.',
     icon: '🔒',
+    animateDelay: 0.25
   },
   {
     title: 'Lightning Fast CDN',
     description: 'Forms load instantly for respondents globally, ensuring maximum completion rates without loading spinners.',
     icon: '🌍',
+    animateDelay: 0.3
   },
   {
     title: 'Dark Mode Native',
     description: 'A beautiful, eye-catching dark and neon aesthetic built right into the core layout engine.',
     icon: '🌙',
+    animateDelay: 0.35
   },
 ];
 
@@ -48,20 +55,22 @@ const FeatureGrid = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, idx) => (
-            <div 
-              key={idx} 
-              className="bg-secondary p-8 rounded-2xl border border-secondary-hover hover:border-secondary-accent/50 transition-colors group"
-            >
-              <div className="text-4xl mb-6 group-hover:scale-110 transition-transform origin-left">
-                {feature.icon}
+            <AnimatedCard delay={feature.animateDelay}>
+              <div 
+                key={idx} 
+                className="bg-secondary p-8 rounded-2xl border border-secondary-hover hover:border-secondary-accent/50 transition-colors group"
+                >
+                <div className="text-4xl mb-6 group-hover:scale-110 transition-transform origin-left">
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-primary-text mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-secondary-text leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-primary-text mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-secondary-text leading-relaxed">
-                {feature.description}
-              </p>
-            </div>
+              </AnimatedCard>
           ))}
         </div>
       </div>
