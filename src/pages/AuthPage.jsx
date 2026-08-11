@@ -27,7 +27,7 @@ const AuthPage = ({ mode }) => {
 
   const handleOAuthLogin = () => {
 
-    window.location.href = 'http://formifyfb.up.railway.app/oauth2/authorization/google'; 
+    window.location.href = 'https://formify-1-ozy6.onrender.com/oauth2/authorization/google'; 
   };
 
 
